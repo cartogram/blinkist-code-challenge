@@ -1,41 +1,36 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection("blog")).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
+
+const { variations } = Astro.locals;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			ul {
-				list-style-type: none;
-				padding: unset;
-			}
-			ul li {
-				display: flex;
-			}
-			ul li :global(time) {
-				flex: 0 0 130px;
-				font-style: italic;
-				color: #595959;
-			}
-			ul li a:visited {
-				color: #8e32dc;
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
+			{
+				variations["new-blog-headline-text"] === "A" ? (
+					<h1>Meet the app that revolutionized reading.</h1>
+				) : (
+					<h1>Meet the app that has 18 million users.</h1>
+				)
+			}
+
+			{variations["blog-signup-cta"] === "show" && <button>Sign up!</button>}
+
 			<section>
 				<ul>
 					{
